@@ -86,10 +86,12 @@ async function start() {
     query('SELECT * FROM department')
     }
     if (answers.choice === 'view all roles'){
-        query('SELECT * FROM role')
+        const selectQuery = "SELECT role.id, role.title, role.salary, department.name AS department_name FROM role INNER JOIN department ON role.department_id = department.id;"
+        query(selectQuery)
         }
     if (answers.choice === 'view all employees'){
-        query('SELECT * FROM employee')
+        const joinQuery = "SELECT employee.id, employee.first_name, employee.last_name, employee.manager, role.title, role.salary, department.name as department_name FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id;"
+        query(joinQuery)
         }
     }
     function query (queryString) {
