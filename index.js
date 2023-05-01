@@ -76,3 +76,23 @@ let questions = [{
     }
 },
 ]
+
+
+async function start() {
+    console.log ('Welcome to the company database!')
+    const answers = await inquirer.prompt(questions)
+    console.log (answers)
+    if (answers.choice === 'view all departments'){
+    query('SELECT * FROM department')
+    }
+    if (answers.choice === 'view all roles'){
+        query('SELECT * FROM role')
+        }
+    if (answers.choice === 'view all employees'){
+        query('SELECT * FROM employee')
+        }
+    }
+    function query (queryString) {
+    db_obj.runQuery(queryString, start)
+    }
+    start();
