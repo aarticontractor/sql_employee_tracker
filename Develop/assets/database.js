@@ -10,6 +10,7 @@ class Database {
       database: 'company_db'
     });
     this.departments = {};
+    this.roles = {};
   }
 
   runQuery(queryString, start) {
@@ -44,6 +45,19 @@ class Database {
     });
   }
 
+  generateRoleChoices() {
+    return new Promise((resolve, reject) => {
+      this.db.query("SELECT title FROM role", (err, results) => {
+        if (err) reject(err);
+        else {
+          const choices = results.map((role) => role.title);
+          this.roles = choices; // store the choices array in the object
+          resolve(choices);
+        }
+      });
+    });
+  }
+
   getDepartmentIdByName(departmentName) {
     return new Promise((resolve, reject) => {
       this.db.query("SELECT id FROM department WHERE name=?", [departmentName], (err, results) => {
@@ -51,6 +65,18 @@ class Database {
         else {
           const departmentId = results[0].id;
           resolve(departmentId);
+        }
+      });
+    });
+  }
+
+  getRoleIdByName(roleName) {
+    return new Promise((resolve, reject) => {
+      this.db.query("SELECT id FROM role WHERE title=?", [roleName], (err, results) => {
+        if (err) reject(err);
+        else {
+          const roleId = results[0].id;
+          resolve(roleId);
         }
       });
     });

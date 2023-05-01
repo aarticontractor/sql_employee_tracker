@@ -64,11 +64,16 @@ let questions = [{
     }
 },
 {
-    type: 'input',
-    message: 'What is the role ID of the employee?',
-    name: 'role_id',
+    type: 'list',
+    message: 'What is the Role name of the Employee?',
+    name: 'role_name',
+    choices: () => {
+      return db_obj.generateRoleChoices().then(names => {
+        return names;
+      });
+    },
     when: function (answers) {
-        return (answers.choice === 'add an employee')
+      return (answers.choice === 'add an employee')
     }
 },
 {
@@ -108,6 +113,13 @@ async function start() {
         console.log("Department ID is: " +department_id);
         // Insert new role into the database
         let queryString = `INSERT INTO role (title, salary, department_id) VALUES ("${answers.title}", ${answers.salary}, ${department_id})`;
+        query(queryString);
+        }
+    if (answers.choice === 'add an employee') {
+        // Get role ID by name
+        let role_id = await db_obj.getRoleIdByName(answers.role_name);
+        // Insert new employee into the database
+        let queryString = `INSERT INTO employee (first_name, last_name, role_id, manager) VALUES ("${answers.first_name}", "${answers.last_name}", ${role_id}, "${answers.manager}")`;
         query(queryString);
         }
     }
