@@ -35,13 +35,17 @@ let questions = [{
     
 },
 {
-    type: 'input',
-    message: 'What is the Department ID for this role?',
-    name: 'department_id',
+    type: 'list',
+    message: 'What is the Department name for this role?',
+    name: 'department_name',
+    choices: () => {
+      return db_obj.generateDepartmentChoices().then(names => {
+        return names;
+      });
+    },
     when: function (answers) {
-        return (answers.choice === 'add a role')
+      return (answers.choice === 'add a role')
     }
-    
 },
 {
     type: 'input',
@@ -81,6 +85,7 @@ let questions = [{
 async function start() {
     console.log ('Welcome to the company database!')
     const answers = await inquirer.prompt(questions)
+    
     console.log (answers)
     if (answers.choice === 'view all departments'){
     query('SELECT * FROM department')
@@ -93,8 +98,23 @@ async function start() {
         const joinQuery = "SELECT employee.id, employee.first_name, employee.last_name, employee.manager, role.title, role.salary, department.name as department_name FROM employee INNER JOIN role ON employee.role_id = role.id INNER JOIN department ON role.department_id = department.id;"
         query(joinQuery)
         }
+    if (answers.choice === 'add a department'){
+        let queryString = `INSERT INTO department (name) VALUES ("${answers.name}")`
+        query(queryString)
+        }
+    if (answers.choice === 'add a role') {
+        // Get department ID by name
+        let department_id = await db_obj.getDepartmentIdByName(answers.department_name);
+        console.log("Department ID is: " +department_id);
+        // Insert new role into the database
+        let queryString = `INSERT INTO role (title, salary, department_id) VALUES ("${answers.title}", ${answers.salary}, ${department_id})`;
+        query(queryString);
+        }
     }
-    function query (queryString) {
+
+function query (queryString) {
     db_obj.runQuery(queryString, start)
     }
-    start();
+
+
+start();
