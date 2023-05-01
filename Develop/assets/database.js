@@ -11,10 +11,11 @@ class Database {
     });
   }
 
-  runQuery(queryString) {
+  runQuery(queryString, start) {
     this.db.query(queryString, function(err, results) {
       if (err) throw err;
-      console.log(results);
+      console.table(results);
+      start();
       // console.log(fields);
     });
   }
