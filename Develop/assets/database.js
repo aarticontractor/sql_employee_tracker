@@ -11,6 +11,7 @@ class Database {
     });
     this.departments = {};
     this.roles = {};
+    this.managers = {};
   }
 
   runQuery(queryString, start) {
@@ -57,6 +58,22 @@ class Database {
       });
     });
   }
+
+  generateManagerChoices() {
+    return new Promise((resolve, reject) => {
+      this.db.query("SELECT DISTINCT(manager) FROM employee", (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          const choices = results.map((employee) => employee.manager || 'NULL');
+          console.log("Managers are: " +choices);
+          this.managers = choices; // store the choices array in the object
+          resolve(choices);
+        }
+      });
+    });
+  }
+  
 
   getDepartmentIdByName(departmentName) {
     return new Promise((resolve, reject) => {
