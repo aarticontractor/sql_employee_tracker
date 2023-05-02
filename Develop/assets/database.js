@@ -2,7 +2,7 @@ const mysql = require('mysql2');
 // created a constructor class which has the SQL connection
 class Database {
   constructor() {
-    console.log("Constructor was run");
+    // console.log("Constructor was run");
     this.db = mysql.createConnection({
       host: 'localhost',
       user: 'root',
