@@ -4,14 +4,28 @@
 
 [Walkthrough Video]()
 <br>
-The SQL Employee Tracker is a command-line application from scratch to manage a company's employee database, using Node.js, Inquirer, and MySQL. This application helps non-developers to easily view and interact with information stored in databases using interfaces called content management systems (CMS).
+The SQL Employee Tracker is a command-line application made from scratch to manage a company's employee database, using Node.js, Inquirer, and MySQL. This application helps non-developers to easily view and interact with information stored in databases using interfaces called content management systems (CMS).
 
 Using this application, a business owner can view and manage the departments, roles, and employees in his company
 so that he can organize and plan his business.
 
-Given a command-line application that accepts user input when the application is started, the user is presented with the following options: view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role.
+Given a command-line application that accepts user input when the application is started, the user is presented with the following options: 
+<br>
+view all departments,
+<br> 
+view all roles,
+<br> 
+view all employees, 
+<br>
+add a department,
+<br> 
+add a role,
+<br> 
+add an employee, and
+<br> 
+update an employee role
 
-WHEN I choose to view all departments or roles or employees, then user is presented with formatted tables showing the departments (department names and department ids), roles (job title, role id, the department that role belongs to, and the salary for that role), and employees (employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to).
+When the user chooses to view all departments or roles or employees, then user is presented with formatted tables showing the departments (department names and department ids), roles (job title, role id, the department that role belongs to, and the salary for that role), and employees (employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to).
 If the user chooses to add a department, or a role, he is prompted with questions to enter the name and role. 
 When user wants to update an employee role, he is prompted to select an employee to update and their new role and this information is updated in the database.
 

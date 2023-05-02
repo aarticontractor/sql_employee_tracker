@@ -16,7 +16,7 @@ class Database {
 
   runQuery(queryString, start) {
     return new Promise((resolve, reject) => {
-      this.db.query(queryString, function(err, results) {
+      this.db.query(queryString, function (err, results) {
         if (err) {
           reject(err);
         } else {
@@ -35,9 +35,9 @@ class Database {
       });
     }).then(() => start());
   }
-  
+
   // Created method generateDepartmentChoices to give list options of department names when prompted
- generateDepartmentChoices() {
+  generateDepartmentChoices() {
     return new Promise((resolve, reject) => {
       this.db.query("SELECT name FROM department", (err, results) => {
         if (err) reject(err);
@@ -73,7 +73,7 @@ class Database {
           reject(err);
         } else {
           const choices = results.map((employee) => employee.manager || 'NULL');
-          console.log("Managers are: " +choices);
+          console.log("Managers are: " + choices);
           this.managers = choices; // store the choices array in the object
           resolve(choices);
         }
@@ -94,9 +94,9 @@ class Database {
       });
     });
   }
-  
-  
-// Created method  getDepartmentIdByName to convert the departmentName from user input into department_id when prompted 
+
+
+  // Created method  getDepartmentIdByName to convert the departmentName from user input into department_id when prompted 
   getDepartmentIdByName(departmentName) {
     return new Promise((resolve, reject) => {
       this.db.query("SELECT id FROM department WHERE name=?", [departmentName], (err, results) => {
@@ -123,7 +123,7 @@ class Database {
     });
   }
 
-  
+
 }
 
 module.exports = Database;
