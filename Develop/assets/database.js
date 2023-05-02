@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-
+// created a constructor class which has the SQL connection
 class Database {
   constructor() {
     console.log("Constructor was run");
@@ -36,6 +36,7 @@ class Database {
     }).then(() => start());
   }
   
+  // Created method generateDepartmentChoices to give list options of department names when prompted
  generateDepartmentChoices() {
     return new Promise((resolve, reject) => {
       this.db.query("SELECT name FROM department", (err, results) => {
@@ -49,6 +50,8 @@ class Database {
     });
   }
 
+
+  // Created method generateRoleChoices to give list options of role names when prompted
   generateRoleChoices() {
     return new Promise((resolve, reject) => {
       this.db.query("SELECT title FROM role", (err, results) => {
@@ -62,9 +65,10 @@ class Database {
     });
   }
 
+  // Created method generateManagerChoices to give list options of manager names when prompted 
   generateManagerChoices() {
     return new Promise((resolve, reject) => {
-      this.db.query("SELECT DISTINCT(manager) FROM employee", (err, results) => {
+      this.db.query("SELECT DISTINCT(manager) FROM employee", (err, results) => { //using distinct help to filter out only the unique manager names 
         if (err) {
           reject(err);
         } else {
@@ -77,6 +81,7 @@ class Database {
     });
   }
 
+  // Created method generateEmployeeChoices to give list options of employee names when prompted 
   generateEmployeeChoices() {
     return new Promise((resolve, reject) => {
       this.db.query("SELECT first_name, last_name FROM employee", (err, results) => {
@@ -91,7 +96,7 @@ class Database {
   }
   
   
-
+// Created method  getDepartmentIdByName to convert the departmentName from user input into department_id when prompted 
   getDepartmentIdByName(departmentName) {
     return new Promise((resolve, reject) => {
       this.db.query("SELECT id FROM department WHERE name=?", [departmentName], (err, results) => {
@@ -104,6 +109,8 @@ class Database {
     });
   }
 
+
+  // Created method  getRoleIdByName to convert the roleName from user input into role_id when prompted 
   getRoleIdByName(roleName) {
     return new Promise((resolve, reject) => {
       this.db.query("SELECT id FROM role WHERE title=?", [roleName], (err, results) => {

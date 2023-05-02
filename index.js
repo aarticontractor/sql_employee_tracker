@@ -1,8 +1,10 @@
-const fs = require("fs");
+//Imported all the required packages and file paths
+const figlet = require('figlet');
 const inquirer = require("inquirer");
 const Database = require('./Develop/assets/database');
 const db_obj = new Database();
 
+//Created inquirer prompt questions and stored them in 'questions' variable
 let questions = [{
     type: 'list',
     message: 'What do you want to do?',
@@ -14,7 +16,7 @@ let questions = [{
     message: 'What is the new Department name?',
     name: 'name',
     when: function (answers) {
-        return (answers.choice === 'add a department')
+        return (answers.choice === 'add a department') //added the 'when' conditional function
     }
 },
 {
@@ -38,7 +40,7 @@ let questions = [{
     type: 'list',
     message: 'What is the Department name for this role?',
     name: 'department_name',
-    choices: () => {
+    choices: () => { // added function to dynamically create an array/list of department name choices by calling the function from database.js
       return db_obj.generateDepartmentChoices().then(names => {
         return names;
       });
@@ -67,7 +69,7 @@ let questions = [{
     type: 'list',
     message: 'What is the Role name of the Employee?',
     name: 'role_name',
-    choices: () => {
+    choices: () => { // added function to dynamically create an array/list of role name choices by calling the function from database.js
       return db_obj.generateRoleChoices().then(names => {
         return names;
       });
@@ -80,7 +82,7 @@ let questions = [{
     type: 'list',
     message: 'Who is the employees manager?',
     name: 'manager_name',
-    choices: () => {
+    choices: () => {  // added function to dynamically create an array/list of manager name choices by calling the function from database.js
       return db_obj.generateManagerChoices().then(names => {
         return names;
       });
@@ -93,7 +95,7 @@ let questions = [{
     type: 'list',
     message: "Which employee's role do you want to update?",
     name: 'emp_name',
-    choices: () => {
+    choices: () => {  // added function to dynamically create an array/list of employee name choices by calling the function from database.js
       return db_obj.generateEmployeeChoices().then(names => {
         return names;
       });
@@ -106,7 +108,7 @@ let questions = [{
     type: 'list',
     message: "Which role do you want to assign the selected employee?",
     name: 'emp_role_name',
-    choices: () => {
+    choices: () => {  // added function to dynamically create an array/list of role name choices by calling the function from database.js
       return db_obj.generateRoleChoices().then(names => {
         return names;
       });
@@ -117,12 +119,13 @@ let questions = [{
 }
 ]
 
-
+//added async...await function 
 async function start() {
-    console.log ('Welcome to the company database!')
+    // console.log ('Welcome to the company database!')
     const answers = await inquirer.prompt(questions)
-    
-    console.log (answers)
+
+    //added sql queries for if conditions
+    // console.log (answers)
     if (answers.choice === 'view all departments'){
     query('SELECT * FROM department')
     }
@@ -169,4 +172,19 @@ function query (queryString) {
     }
 
 
-start();
+
+// Define the text to display in the figlet
+const figletText = 'employee tracker';
+
+// Create the figlet and log it to the console
+figlet(figletText, function(err, data) {
+    if (err) {
+        console.log('Something went wrong...');
+        console.dir(err);
+        return;
+    }
+    console.log(data);
+
+    // Start the inquirer prompt after displaying the figlet
+    start();
+});
