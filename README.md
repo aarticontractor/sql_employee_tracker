@@ -2,7 +2,7 @@
 
 ## Description
 
-[Walkthrough Video](https://www.youtube.com/watch?v=YwlYj4mHNdM)
+[Walkthrough Video](https://www.youtube.com/watch?v=WMd969-WSYg)
 <br>
 The SQL Employee Tracker is a command-line application made from scratch to manage a company's employee database, using Node.js, Inquirer, and MySQL. This application helps non-developers to easily view and interact with information stored in databases using interfaces called content management systems (CMS).
 
