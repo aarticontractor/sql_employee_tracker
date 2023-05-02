@@ -89,6 +89,32 @@ let questions = [{
       return (answers.choice === 'add an employee')
     }
 },
+{
+    type: 'list',
+    message: "Which employee's role do you want to update?",
+    name: 'emp_name',
+    choices: () => {
+      return db_obj.generateEmployeeChoices().then(names => {
+        return names;
+      });
+    },
+    when: function (answers) {
+      return (answers.choice === 'update an employee role')
+    }
+},
+{
+    type: 'list',
+    message: "Which role do you want to assign the selected employee?",
+    name: 'emp_role_name',
+    choices: () => {
+      return db_obj.generateRoleChoices().then(names => {
+        return names;
+      });
+    },
+    when: function (answers) {
+      return (answers.choice === 'update an employee role')
+    }
+}
 ]
 
 
@@ -126,6 +152,15 @@ async function start() {
         // Insert new employee into the database
         let queryString = `INSERT INTO employee (first_name, last_name, role_id, manager) VALUES ("${answers.first_name}", "${answers.last_name}", ${role_id}, "${answers.manager_name}")`;
         query(queryString);
+        }
+    if (answers.choice === 'update an employee role') {
+        // Get role ID by name
+        let role_id = await db_obj.getRoleIdByName(answers.emp_role_name);
+        // Update existing emmployee
+        // Convert first_name and last_name
+        const [first_name, last_name] = answers.emp_name.split(" ");
+        let updateQuery = `UPDATE employee SET role_id = ${role_id} WHERE first_name = "${first_name}" and last_name = "${last_name}"`;
+        query(updateQuery);
         }
     }
 

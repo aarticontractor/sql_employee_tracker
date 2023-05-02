@@ -27,6 +27,9 @@ class Database {
             // For SELECT queries, log results and resolve with results
             console.table(results);
             resolve(results);
+          } else if (queryString.startsWith('UPDATE')) {
+            // For UPDATE queries, just resolve with no results
+            resolve();
           }
         }
       });
@@ -73,6 +76,20 @@ class Database {
       });
     });
   }
+
+  generateEmployeeChoices() {
+    return new Promise((resolve, reject) => {
+      this.db.query("SELECT first_name, last_name FROM employee", (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          const choices = results.map((employee) => `${employee.first_name} ${employee.last_name}`);
+          resolve(choices);
+        }
+      });
+    });
+  }
+  
   
 
   getDepartmentIdByName(departmentName) {
